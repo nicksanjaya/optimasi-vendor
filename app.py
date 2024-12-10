@@ -65,7 +65,7 @@ def solve_optimization(order,df):
     st.write('<center><b><h3>Nilai fungsi tujuan =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
 
 # Upload Excel file
-uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["Excel"])
+uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 
 if uploaded_file is not None:
     df = pd.read_excel(uploaded_file)

@@ -4,6 +4,7 @@ from pyomo.environ import *
 from pyomo.opt import SolverFactory
 import numpy as np
 import pandas as pd
+import streamlit as st
 
 # Membuat judul
 st.title('CATERING ORDER')

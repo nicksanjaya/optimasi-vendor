@@ -3,3 +3,4 @@ pyomo==6.8.0
 glpk
 numpy
 pandas
+openpyxl

@@ -12,20 +12,7 @@ st.title('CATERING ORDER')
 st.subheader('Selamat datang di aplikasi optimasi catering order')
 
 # Fungsi utama
-def main():
-    
-    # Nilai awal
-    order = 400
-    
-    # Menambahkan kolom input kuota
-    with st.container():
-        col_k = st.columns(1)
-        with col_k[0]:
-            order = st.number_input('Order', value=order)
-            
- 
-    # Menambahkan garis pembatas
-    st.markdown('---'*10)
+def solve_optimization(order,df):
 
     # Memastikan bahwa kuota dan budget tidak saling bertentangan
     sum_cap = sum([df.Capacity[indeks] for indeks in range(len(df.Id))])
@@ -75,6 +62,18 @@ def main():
         st.write('<center><b><h3>Vendor', df.Vendor[i], '=', pyo.value(ven[i]), '</b></h3>', unsafe_allow_html=True)
 
     st.write('<center><b><h3>Nilai fungsi tujuan =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
-# Mengeksekusi fungsi main
-if __name__ == '__main__':
-    main()
+
+# Upload Excel file
+uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["Excel"])
+
+if uploaded_file is not None:
+    df = pd.read_excel(uploaded_file)
+
+    # Input box for capacity
+    order = st.number_input("Enter Order:", min_value=0)
+
+    # Button to create schedule
+    if st.button("Calculate"):
+        output_df = solve_optimization(df,order)
+
+

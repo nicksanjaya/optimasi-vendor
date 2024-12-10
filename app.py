@@ -68,7 +68,11 @@ def solve_optimization(order,df):
 uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 
 if uploaded_file is not None:
-    df = pd.read_excel(uploaded_file)
+    try:
+        df = pd.read_excel(uploaded_file)
+        st.write(df)  # Display the uploaded data for debugging
+    except Exception as e:
+        st.error(f"Error reading the Excel file: {e}")
 
     # Input box for capacity
     order = st.number_input("Enter Order:", min_value=0)

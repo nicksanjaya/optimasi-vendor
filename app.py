@@ -15,11 +15,7 @@ st.subheader('Selamat datang di aplikasi optimasi catering order')
 # Fungsi utama
 def solve_optimization(order,df):
     # Memastikan bahwa kuota dan budget tidak saling bertentangan
-    sum_cap = sum([df.Capacity[indeks] for indeks in range(len(df.Id))])
-    
-    if order > sum_cap:
-        st.error("Melebihi kapasitas order ke vendor!")
-        return
+
     
     # Membuat model
     model = pyo.ConcreteModel()

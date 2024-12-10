@@ -13,9 +13,20 @@ st.title('CATERING ORDER')
 st.subheader('Selamat datang di aplikasi optimasi catering order')
 
 # Fungsi utama
-def solve_optimization(order,df):
-    # Memastikan bahwa kuota dan budget tidak saling bertentangan
+def solve_optimization(df,order):
+    # Check if necessary columns exist
+    required_columns = ['Id', 'Capacity', 'Vendor', 'Cost']
+    for col in required_columns:
+        if col not in df.columns:
+            st.error(f"Missing required column: {col}")
+            return
 
+    # Memastikan bahwa kuota dan budget tidak saling bertentangan
+    sum_cap = sum([df.Capacity[indeks] for indeks in range(len(df.Id))])
+    
+    if order > sum_cap:
+        st.error("Melebihi kapasitas order ke vendor!")
+        return
     
     # Membuat model
     model = pyo.ConcreteModel()
@@ -71,15 +82,17 @@ uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
-        st.write(df)
-        st.write(df.columns.tolist())
+        st.write(df)  
     except Exception as e:
         st.error(f"Error reading the Excel file: {e}")
         
     convert_df(df)
     # Input box for capacity
     order = st.number_input("Enter Order:", min_value=0)
-    solve_optimization(df,order)
 
-
-
+    # Button to create schedule
+    if st.button("Calculate"):
+        try:
+            solve_optimization(df,order)
+        except Exception as e:
+            st.error(f"Error : {e}")

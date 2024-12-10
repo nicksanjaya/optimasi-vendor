@@ -68,7 +68,7 @@ def solve_optimization(df,order):
     for i in range(len(ven)):
         st.write('<center><b><h3>Vendor', df.Vendor[i], '=', pyo.value(ven[i]), '</b></h3>', unsafe_allow_html=True)
 
-    st.write('<center><b><h3>Nilai fungsi tujuan =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
+    st.write('<center><b><h3>Cost =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
 
 def convert_df(df):
     df["Id"] = df["Id"].astype(int)

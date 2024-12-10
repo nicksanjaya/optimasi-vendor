@@ -67,22 +67,14 @@ def main():
         st.error(f"Solusi tidak ditemukan! Status solver: {results.solver.status}, Termination condition: {results.solver.termination_condition}")
         return
     
-    # Menyimpan hasil model
-    a_value = pyo.value(a)
-    d_value = pyo.value(d)
-    i_value = pyo.value(i)
-    t_value = pyo.value(t)
-    s_value = pyo.value(s)
-    z_value = pyo.value(model.obj)
-    
     # Menambahkan garis pembatas
     st.markdown('---'*10)
     
     # Menampilkan hasil optimasi
     for i in range(len(ven)):
-        print('Vendor', df.Vendor[i], '=', pyo.value(ven[i]))
+        st.write('<center><b><h3>Vendor', df.Vendor[i], '=', pyo.value(ven[i]), '</b></h3>', unsafe_allow_html=True)
 
-    print('Nilai fungsi tujuan =', pyo.value(model.obj))
+    st.write('<center><b><h3>Nilai fungsi tujuan =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
 # Mengeksekusi fungsi main
 if __name__ == '__main__':
     main()

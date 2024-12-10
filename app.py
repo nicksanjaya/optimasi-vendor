@@ -89,12 +89,7 @@ if uploaded_file is not None:
     convert_df(df)
     # Input box for capacity
     order = st.number_input("Enter Order:", min_value=0)
+    solve_optimization(df,order)
 
-    # Button to create schedule
-    if st.button("Calculate"):
-        try:
-            solve_optimization(df,order)
-        except Exception as e:
-            st.error(f"Error : {e}")
 
 

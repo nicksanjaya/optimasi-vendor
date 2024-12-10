@@ -70,27 +70,30 @@ def solve_optimization(order,df):
 
     st.write('<center><b><h3>Nilai fungsi tujuan =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
 
+def convert_df(df):
+    df["Id"] = df["Id"].astype(int)
+    df["Capacity"] = df["Capacity"].astype(int)
+    df["Cost"] = df["Cost"].astype(int)
+
+
 # Upload Excel file
 uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
-        # Convert columns to integer type
-        df["Id"] = df["Id"].astype(int)
-        df["Capacity"] = df["Capacity"].astype(int)
-        df["Cost"] = df["Cost"].astype(int)
         st.write(df)  
     except Exception as e:
         st.error(f"Error reading the Excel file: {e}")
-
+        
+    convert_df(df)
     # Input box for capacity
     order = st.number_input("Enter Order:", min_value=0)
 
     # Button to create schedule
     if st.button("Calculate"):
         try:
-            output_df = solve_optimization(df,order)
+            solve_optimization(df,order)
         except Exception as e:
             st.error(f"Error : {e}")
 

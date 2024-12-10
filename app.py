@@ -79,6 +79,9 @@ if uploaded_file is not None:
 
     # Button to create schedule
     if st.button("Calculate"):
-        output_df = solve_optimization(df,order)
+        try:
+            output_df = solve_optimization(df,order)
+        except Exception as e:
+            st.error(f"Error : {e}")
 
 

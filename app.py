@@ -75,7 +75,8 @@ uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
-        st.write(df)  
+        st.write(df)
+        st.write(df.columns.tolist())
     except Exception as e:
         st.error(f"Error reading the Excel file: {e}")
         

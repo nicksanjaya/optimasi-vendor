@@ -80,16 +80,15 @@ def convert_df(df):
     df["Cost"] = df["Cost"].astype(int)
 
 def preprocessing(df):
-    preprocessor_numerik = Pipeline([
-        ('imputasi', SimpleImputer(strategy='constant', fill_value='0'))
-    ])
-    
-    # Menggabungkan kedua pipeline di atas
     preprocessor = ColumnTransformer([
-        ('preprocessing numerik', preprocessor_numerik, df.Order)],
+        ('imputasi Order', SimpleImputer(strategy='constant', fill_value=0), ['Order'])],
         remainder='passthrough',
         verbose_feature_names_out=False
     )
+    preprocessor.fit(df)
+    df = preprocessor.transform(df)
+    df = pd.DataFrame(df, columns=preprocessor.get_feature_names_out())
+    return df
 
 
 # Upload Excel file
@@ -98,12 +97,12 @@ uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
-        preprocessing(df) 
+        preprocessing(df)
+        convert_df(df)
         st.write(df)  
     except Exception as e:
         st.error(f"Error reading the Excel file: {e}")
         
-    convert_df(df)
     # Input box for capacity
     order = st.number_input("Enter Order:", min_value=0)
 

@@ -97,7 +97,7 @@ uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
-        preprocessing(df)
+        df = preprocessing(df)
         convert_df(df)
         st.write(df)  
     except Exception as e:

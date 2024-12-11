@@ -99,6 +99,8 @@ if uploaded_file is not None:
         df = pd.read_excel(uploaded_file)
         df = preprocessing(df)
         convert_df(df)
+        cols = [col for col in df if col != 'Order'] + ['Order']
+        df = df[cols]
         st.write(df)  
     except Exception as e:
         st.error(f"Error reading the Excel file: {e}")

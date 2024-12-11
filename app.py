@@ -38,7 +38,7 @@ def solve_optimization(df,order):
     model.limits = pyo.ConstraintList()
     for indeks in range(len(df.Id)):
         model.limits.add(expr = ven[indeks] <= df.Capacity[indeks])
-
+        model.limits.add(expr = ven[indeks] >= df.Order[indeks])
 
     # Mendefinisikan fungsi tujuan
     ven_sum_obj = sum([ven[indeks]*df.Cost[indeks] for indeks in range(len(df.Id))])

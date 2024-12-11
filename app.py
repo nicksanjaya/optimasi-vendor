@@ -7,10 +7,10 @@ import pandas as pd
 import streamlit as st
 
 # Membuat judul
-st.title('CATERING ORDER')
+st.title('OPTIMIZATION ORDER')
 
 # Menambah subheader
-st.subheader('Selamat datang di aplikasi optimasi catering order')
+st.subheader('Selamat datang di aplikasi optimasi kuota order ke vendor subcon')
 
 # Fungsi utama
 def solve_optimization(df,order):
@@ -66,15 +66,27 @@ def solve_optimization(df,order):
 
 def convert_df(df):
     # Check if necessary columns exist
-    required_columns = ['Id', 'Capacity', 'Vendor', 'Cost']
+    required_columns = ['Id', 'Capacity', 'Vendor', 'Cost','Order']
     for col in required_columns:
         if col not in df.columns:
             st.error(f"Missing required column: {col}")
             return
             
-    df["Id"] = df["Id"].astype(int)
+    df["Order"] = df["Order"].astype(int)
     df["Capacity"] = df["Capacity"].astype(int)
     df["Cost"] = df["Cost"].astype(int)
+
+def preprocessing(df):
+    preprocessor_numerik = Pipeline([
+        ('imputasi', SimpleImputer(strategy='constant', fill_value='0'))
+    ])
+    
+    # Menggabungkan kedua pipeline di atas
+    preprocessor = ColumnTransformer([
+        ('preprocessing numerik', preprocessor_numerik, df.Order)],
+        remainder='passthrough',
+        verbose_feature_names_out=False
+    )
 
 
 # Upload Excel file
@@ -83,6 +95,7 @@ uploaded_file = st.file_uploader("Upload Excel Vendor File", type=["xlsx"])
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
+        preprocessing(df) 
         st.write(df)  
     except Exception as e:
         st.error(f"Error reading the Excel file: {e}")

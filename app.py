@@ -5,6 +5,9 @@ from pyomo.opt import SolverFactory
 import numpy as np
 import pandas as pd
 import streamlit as st
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
 
 # Membuat judul
 st.title('OPTIMIZATION ORDER')

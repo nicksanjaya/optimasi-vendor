@@ -4,4 +4,4 @@ glpk
 numpy
 pandas
 openpyxl
-sklearn
+sklearn==1.2.2

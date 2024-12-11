@@ -14,13 +14,7 @@ st.subheader('Selamat datang di aplikasi optimasi catering order')
 
 # Fungsi utama
 def solve_optimization(df,order):
-    # Check if necessary columns exist
-    required_columns = ['Id', 'Capacity', 'Vendor', 'Cost']
-    for col in required_columns:
-        if col not in df.columns:
-            st.error(f"Missing required column: {col}")
-            return
-
+    
     # Memastikan bahwa kuota dan budget tidak saling bertentangan
     sum_cap = sum([df.Capacity[indeks] for indeks in range(len(df.Id))])
     
@@ -71,6 +65,13 @@ def solve_optimization(df,order):
     st.write('<center><b><h3>Cost =', pyo.value(model.obj), '</b></h3>', unsafe_allow_html=True)
 
 def convert_df(df):
+    # Check if necessary columns exist
+    required_columns = ['Id', 'Capacity', 'Vendor', 'Cost']
+    for col in required_columns:
+        if col not in df.columns:
+            st.error(f"Missing required column: {col}")
+            return
+            
     df["Id"] = df["Id"].astype(int)
     df["Capacity"] = df["Capacity"].astype(int)
     df["Cost"] = df["Cost"].astype(int)
